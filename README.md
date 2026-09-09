@@ -1,6 +1,8 @@
 # Homebrew Tap
 
-Homebrew tap for [BrowserOS](https://browseros.com) and BrowserOS neo.
+Homebrew tap for [BrowserOS neo](https://browseros.com), the browser for agents.
+
+BrowserOS neo is on its way into Homebrew's own cask repository. Until it lands there, this tap is how you install it. Nothing changes for you when it does: the same `brew install --cask browseros-neo` keeps working.
 
 ## Install
 
@@ -16,15 +18,15 @@ The browser for agents. A real browser you set up for your agents and sign in to
 brew install --cask browseros-neo
 ```
 
-### BrowserOS
+A universal build covering Apple Silicon and Intel, signed and notarized, requiring macOS 12 (Monterey) or later.
 
-The browser for humans. An open source Chromium browser with a built-in AI assistant that runs on your own machine.
+### Looking for BrowserOS?
+
+BrowserOS, the browser for humans, is in Homebrew already and needs no tap:
 
 ```sh
 brew install --cask browseros
 ```
-
-Both are universal builds covering Apple Silicon and Intel, signed and notarized. BrowserOS neo needs macOS 12 (Monterey) or later; BrowserOS needs macOS 13 (Ventura) or later.
 
 ## Update
 
@@ -33,7 +35,7 @@ brew update
 brew upgrade --cask browseros-neo
 ```
 
-Both browsers also update themselves in the background. Homebrew and the built-in updater coexist safely; whichever runs first wins the version bump.
+BrowserOS neo also updates itself in the background. Homebrew and the built-in updater coexist safely; whichever runs first wins the version bump.
 
 ## Uninstall
 
@@ -46,7 +48,7 @@ brew uninstall --cask browseros-neo --zap    # also removes profile, cache, pref
 
 ## How this tap stays fresh
 
-Both products publish a Sparkle appcast that carries the released version and a versioned artifact URL. A scheduled workflow reads those feeds, and when a cask is behind it downloads the new build, computes its SHA256, and commits the bump. Nothing needs to be pushed from the product repo.
+BrowserOS neo publishes a Sparkle appcast that carries the released version and a versioned artifact URL. A scheduled workflow reads that feed, and when the cask is behind it downloads the new build, computes its SHA256, and commits the bump. Nothing needs to be pushed from the product repo.
 
 ## Contact
 

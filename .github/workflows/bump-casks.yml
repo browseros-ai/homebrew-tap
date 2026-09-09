@@ -1,8 +1,8 @@
-name: Bump casks
+name: Bump cask
 
-# Pull-based, unlike a dispatch-driven tap. Both products publish a Sparkle
-# appcast carrying the released version and a versioned artifact URL, so this
-# tap can discover releases on its own and the product repo stays untouched.
+# Pull-based, unlike a dispatch-driven tap. neo publishes a Sparkle appcast
+# carrying the released version and a versioned artifact URL, so this tap can
+# discover releases on its own and the product repo stays untouched.
 on:
   schedule:
     - cron: "17 7 * * *"
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Bump each cask to the version its appcast reports
+      - name: Bump the cask to the version its appcast reports
         run: |
           set -euo pipefail
 
@@ -60,7 +60,6 @@ jobs:
           }
 
           bump browseros-neo https://cdn.browseros.com/appcast-claw.xml
-          bump browseros     https://cdn.browseros.com/appcast.xml
 
       - name: Show the diff
         run: git --no-pager diff Casks/
