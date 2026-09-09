@@ -4,18 +4,17 @@ cask "browseros" do
 
   url "https://cdn.browseros.com/releases/browseros/#{version}/macos/BrowserOS_v#{version}_universal.dmg",
       verified: "cdn.browseros.com/releases/browseros/"
-
   name "BrowserOS"
   desc "Browser for humans"
   homepage "https://browseros.com/"
 
   livecheck do
     url "https://cdn.browseros.com/appcast.xml"
-    strategy :sparkle
+    strategy :sparkle, &:short_version
   end
 
   auto_updates true
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "BrowserOS.app"
 

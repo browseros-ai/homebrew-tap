@@ -4,18 +4,17 @@ cask "browseros-neo" do
 
   url "https://cdn.browseros.com/releases/browserclaw/#{version}/macos/BrowserOS_neo_v#{version}_universal.dmg",
       verified: "cdn.browseros.com/releases/browserclaw/"
-
   name "BrowserOS neo"
   desc "Browser for agents"
   homepage "https://browseros.com/"
 
   livecheck do
     url "https://cdn.browseros.com/appcast-claw.xml"
-    strategy :sparkle
+    strategy :sparkle, &:short_version
   end
 
   auto_updates true
-  depends_on macos: ">= :monterey"
+  depends_on macos: :monterey
 
   app "BrowserOS neo.app"
 
