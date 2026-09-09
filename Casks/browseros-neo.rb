@@ -20,8 +20,9 @@ cask "browseros-neo" do
   zap trash: [
     "~/Library/Application Support/BrowserClaw",
     "~/Library/Caches/BrowserClaw",
+    "~/Library/Caches/com.browseros.BrowserClaw",
+    "~/Library/HTTPStorages/com.browseros.BrowserClaw",
     "~/Library/Preferences/com.browseros.BrowserClaw.plist",
     "~/Library/Saved Application State/com.browseros.BrowserClaw.savedState",
-    "~/Library/WebKit/com.browseros.BrowserClaw",
   ]
 end
