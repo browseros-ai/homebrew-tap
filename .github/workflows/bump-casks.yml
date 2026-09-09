@@ -1,0 +1,81 @@
+name: Bump casks
+
+# Pull-based, unlike a dispatch-driven tap. Both products publish a Sparkle
+# appcast carrying the released version and a versioned artifact URL, so this
+# tap can discover releases on its own and the product repo stays untouched.
+on:
+  schedule:
+    - cron: "17 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump each cask to the version its appcast reports
+        run: |
+          set -euo pipefail
+
+          bump() {
+            cask="$1"
+            appcast="$2"
+            file="Casks/${cask}.rb"
+
+            latest="$(curl -sL --fail-with-body --max-time 60 "$appcast" \
+              | grep -oE '<sparkle:shortVersionString>[^<]+' | head -1 | sed 's/.*>//')"
+            if [ -z "$latest" ]; then
+              echo "::error::$cask: no version in $appcast"
+              return 1
+            fi
+
+            current="$(grep -E '^  version ' "$file" | cut -d'"' -f2)"
+            if [ "$latest" = "$current" ]; then
+              echo "$cask: already at $current"
+              return 0
+            fi
+            echo "$cask: $current -> $latest"
+
+            # Reuse the cask's own url template so the path shape lives in one place.
+            tmpl="$(grep -E '^  url "' "$file" | sed -E 's/^  url "([^"]+)".*/\1/')"
+            url="${tmpl//'#{version}'/$latest}"
+
+            curl -sL --fail-with-body --max-time 900 -o artifact.dmg "$url"
+            sha="$(sha256sum artifact.dmg | cut -d' ' -f1)"
+            rm -f artifact.dmg
+
+            # Idempotent: re-running with the same values reproduces the file.
+            awk -v v="$latest" -v s="$sha" '
+              /^  version / { print "  version \"" v "\""; next }
+              /^  sha256 /  { print "  sha256 \"" s "\""; next }
+              { print }
+            ' "$file" > "$file.new"
+            mv "$file.new" "$file"
+          }
+
+          bump browseros-neo https://cdn.browseros.com/appcast-claw.xml
+          bump browseros     https://cdn.browseros.com/appcast.xml
+
+      - name: Show the diff
+        run: git --no-pager diff Casks/
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          if git diff --quiet Casks/; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for f in $(git diff --name-only Casks/); do
+            cask="$(basename "$f" .rb)"
+            version="$(grep -E '^  version ' "$f" | cut -d'"' -f2)"
+            git add "$f"
+            git commit -m "$cask $version"
+          done
+          git push
