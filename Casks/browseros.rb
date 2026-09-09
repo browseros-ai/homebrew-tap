@@ -2,8 +2,7 @@ cask "browseros" do
   version "0.50.3"
   sha256 "90b8d1914bbb47a7f416971f0e09171b2824cad91587f1557324f6a7f8260b19"
 
-  url "https://cdn.browseros.com/releases/browseros/#{version}/macos/BrowserOS_v#{version}_universal.dmg",
-      verified: "cdn.browseros.com/releases/browseros/"
+  url "https://cdn.browseros.com/releases/browseros/#{version}/macos/BrowserOS_v#{version}_universal.dmg"
   name "BrowserOS"
   desc "Browser for humans"
   homepage "https://browseros.com/"

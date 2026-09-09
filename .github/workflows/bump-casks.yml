@@ -42,7 +42,9 @@ jobs:
 
             # Reuse the cask's own url template so the path shape lives in one place.
             tmpl="$(grep -E '^  url "' "$file" | sed -E 's/^  url "([^"]+)".*/\1/')"
-            url="${tmpl//'#{version}'/$latest}"
+            # sed, not bash parameter expansion: a leading "#" in the pattern is
+            # special to ${var//...} and silently leaves the template unsubstituted.
+            url="$(printf '%s' "$tmpl" | sed "s|#{version}|$latest|g")"
 
             curl -sL --fail-with-body --max-time 900 -o artifact.dmg "$url"
             sha="$(sha256sum artifact.dmg | cut -d' ' -f1)"
