@@ -1,28 +1,30 @@
-# Homebrew Tap
+# BrowserOS Homebrew Tap
 
-Homebrew tap for [BrowserOS neo](https://browseros.com), the browser for agents.
+Homebrew tap for **BrowserOS neo**, the browser for agents.
 
-BrowserOS neo is on its way into Homebrew's own cask repository. Until it lands there, this tap is how you install it. Nothing changes for you when it does: the same `brew install --cask browseros-neo` keeps working.
+| Product | What it is | Where it comes from |
+|---|---|---|
+| **BrowserOS neo** | Browser for agents | This tap |
+| **BrowserOS** | Browser for humans | Homebrew itself, no tap needed |
 
-## Install
+The two install differently, so each one is written out in full below. Copy either block whole.
+
+## Install BrowserOS neo
+
+A real browser you set up for your agents and sign in to, so they get live logins, cookies, and a persistent profile.
 
 ```sh
 brew tap browseros-ai/tap
-```
-
-### BrowserOS neo
-
-The browser for agents. A real browser you set up for your agents and sign in to, so they get live logins, cookies, and a persistent profile.
-
-```sh
 brew install --cask browseros-neo
 ```
 
-A universal build covering Apple Silicon and Intel, signed and notarized, requiring macOS 12 (Monterey) or later.
+Universal build for Apple Silicon and Intel, signed and notarized. Requires macOS 12 (Monterey) or later.
 
-### Looking for BrowserOS?
+> BrowserOS neo is on its way into Homebrew's own cask repository. Until it lands, this tap is how you install it, and nothing changes for you when it does: the same `brew install --cask browseros-neo` keeps working.
 
-BrowserOS, the browser for humans, is already in Homebrew itself. Install it from there, with no tap and nothing to add:
+## Install BrowserOS
+
+The browser for humans, with an AI agent built in. It is already in Homebrew, so there is no tap to add and nothing from this repository is involved:
 
 ```sh
 brew install --cask browseros
@@ -42,15 +44,20 @@ BrowserOS neo also updates itself in the background. Homebrew and the built-in u
 ## Uninstall
 
 ```sh
-brew uninstall --cask browseros-neo          # removes the app
-brew uninstall --cask browseros-neo --zap    # also removes profile, cache, preferences
+brew uninstall --cask browseros-neo
 ```
 
-`--zap` deletes your browser profile, including its history, cookies, and signed-in sessions. Leave it off if you plan to reinstall.
+That removes the app and leaves your profile alone. To remove the profile as well:
+
+```sh
+brew uninstall --cask browseros-neo --zap
+```
+
+> `--zap` deletes your browser profile, including history, cookies, and every signed-in session your agents rely on. Leave it off if you plan to reinstall.
 
 ## How this tap stays fresh
 
-BrowserOS neo publishes a Sparkle appcast that carries the released version and a versioned artifact URL. A scheduled workflow reads that feed, and when the cask is behind it downloads the new build, computes its SHA256, and commits the bump. Nothing needs to be pushed from the product repo.
+BrowserOS neo publishes a Sparkle appcast carrying the released version and a versioned artifact URL. A scheduled workflow reads that feed, and when the cask is behind it downloads the new build, computes its SHA256, and commits the bump. Nothing needs to be pushed from the product repository.
 
 ## Contact
 
