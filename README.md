@@ -22,11 +22,13 @@ A universal build covering Apple Silicon and Intel, signed and notarized, requir
 
 ### Looking for BrowserOS?
 
-BrowserOS, the browser for humans, is in Homebrew already and needs no tap:
+BrowserOS, the browser for humans, is already in Homebrew itself. Install it from there, with no tap and nothing to add:
 
 ```sh
 brew install --cask browseros
 ```
+
+That is the [official cask](https://formulae.brew.sh/cask/browseros), maintained in [Homebrew/homebrew-cask](https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/b/browseros.rb) and updated automatically on each release. This tap deliberately does not carry a `browseros` cask, so there is one source for it rather than two that can drift.
 
 ## Update
 
